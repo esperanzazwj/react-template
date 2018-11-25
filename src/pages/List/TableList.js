@@ -128,29 +128,29 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={12} sm={24}>
             <FormItem label="Origin">
-              {getFieldDecorator('origin')(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('origin', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
             <FormItem label="Destination">
-              {getFieldDecorator('destination')(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('destination', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="Departing">
-              {getFieldDecorator('depart')(
+              {getFieldDecorator('depart', {rules: [{ required: true }]})(
                 <DatePicker style={{ width: '100%' }} placeholder="YYYY-MM-DD" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="Returning">
-              {getFieldDecorator('return')(
+              {getFieldDecorator('return', {rules: [{ required: true }]})(
                 <DatePicker style={{ width: '100%' }} placeholder="YYYY-MM-DD" />
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
+          {/* <Col md={8} sm={24}>
             <FormItem label="Travelers">
               {getFieldDecorator('travelers')(
                 <Select placeholder="1" style={{ width: '100%' }}>
@@ -163,7 +163,9 @@ class TableList extends PureComponent {
                 </Select>
               )}
             </FormItem>
-          </Col>
+          </Col> */}
+        </Row>
+        <Row>
           <Col md={8} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
@@ -181,6 +183,7 @@ class TableList extends PureComponent {
       </Form>
     );
   }
+
   renderSimpleFormOneWay() {
     const {
       form: { getFieldDecorator },
@@ -191,7 +194,7 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={12} sm={24}>
             <FormItem label="Origin">
-              {getFieldDecorator('origin')(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('origin', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
             </FormItem>
           </Col>
           <div>
@@ -199,17 +202,17 @@ class TableList extends PureComponent {
           </div>
           <Col md={12} sm={24}>
             <FormItem label="Destination">
-              {getFieldDecorator('destination')(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('destination', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
             <FormItem label="Departing">
-              {getFieldDecorator('depart')(
+              {getFieldDecorator('depart', {rules: [{ required: true }]})(
                 <DatePicker style={{ width: '100%' }} placeholder="YYYY-MM-DD" />
               )}
             </FormItem>
           </Col>
-          <Col md={12} sm={24}>
+          {/* <Col md={12} sm={24}>
             <FormItem label="Travelers">
               {getFieldDecorator('travelers')(
                 <Select placeholder="1" style={{ width: '100%' }}>
@@ -222,7 +225,9 @@ class TableList extends PureComponent {
                 </Select>
               )}
             </FormItem>
-          </Col>
+          </Col> */}
+        </Row>
+        <Row>
           <Col md={8} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
@@ -250,29 +255,29 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={12} sm={24}>
             <FormItem label="Origin">
-              {getFieldDecorator('origin')(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('origin', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
             <FormItem label="Destination">
-              {getFieldDecorator('destination')(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('destination', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="Departing">
-              {getFieldDecorator('depart')(
+              {getFieldDecorator('depart', {rules: [{ required: true }]})(
                 <DatePicker style={{ width: '100%' }} placeholder="YYYY-MM-DD" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="Returning">
-              {getFieldDecorator('return')(
+              {getFieldDecorator('return', {rules: [{ required: true }]})(
                 <DatePicker style={{ width: '100%' }} placeholder="YYYY-MM-DD" />
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
+          {/* <Col md={8} sm={24}>
             <FormItem label="Travelers">
               {getFieldDecorator('travelers')(
                 <Select placeholder="1" style={{ width: '100%' }}>
@@ -285,7 +290,7 @@ class TableList extends PureComponent {
                 </Select>
               )}
             </FormItem>
-          </Col>
+          </Col> */}
         </Row>
         <StandardFormRow block style={{ paddingBottom: 11 }}>
               <FormItem label="Airlines">
@@ -293,11 +298,11 @@ class TableList extends PureComponent {
                   <TagSelect expandable>
                     <TagSelect.Option value="airline1">American Airlines</TagSelect.Option>
                     <TagSelect.Option value="airline2">Alaska Airlines</TagSelect.Option>
-                    <TagSelect.Option value="airline3">Virgin America</TagSelect.Option>
+                    <TagSelect.Option value="airline3">Frontier America</TagSelect.Option>
                     <TagSelect.Option value="airline4">JetBlue Airways</TagSelect.Option>
                     <TagSelect.Option value="airline5">Delta</TagSelect.Option>
                     <TagSelect.Option value="airline6">United</TagSelect.Option>
-                    <TagSelect.Option value="airline7">Sun Country Airlines</TagSelect.Option>
+                    <TagSelect.Option value="airline7">Spirit Airlines</TagSelect.Option>
                   </TagSelect>
                 )}
               </FormItem>
@@ -348,6 +353,7 @@ class TableList extends PureComponent {
       </Form>
     );
   }
+
   renderAdvancedFormOneWay() {
     const {
       form: { getFieldDecorator },
@@ -357,22 +363,22 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={12} sm={24}>
             <FormItem label="Origin">
-              {getFieldDecorator('origin')(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('origin', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
             <FormItem label="Destination">
-              {getFieldDecorator('destination')(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('destination', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="Departing">
-              {getFieldDecorator('depart')(
+              {getFieldDecorator('depart', {rules: [{ required: true }]})(
                 <DatePicker style={{ width: '100%' }} placeholder="YYYY-MM-DD" />
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
+          {/* <Col md={8} sm={24}>
             <FormItem label="Travelers">
               {getFieldDecorator('travelers')(
                 <Select placeholder="1" style={{ width: '100%' }}>
@@ -385,7 +391,7 @@ class TableList extends PureComponent {
                 </Select>
               )}
             </FormItem>
-          </Col>
+          </Col> */}
         </Row>
         <StandardFormRow block style={{ paddingBottom: 11 }}>
               <FormItem label="Airlines">
@@ -393,11 +399,11 @@ class TableList extends PureComponent {
                   <TagSelect expandable>
                     <TagSelect.Option value="airline1">American Airlines</TagSelect.Option>
                     <TagSelect.Option value="airline2">Alaska Airlines</TagSelect.Option>
-                    <TagSelect.Option value="airline3">Virgin America</TagSelect.Option>
+                    <TagSelect.Option value="airline3">Frontier America</TagSelect.Option>
                     <TagSelect.Option value="airline4">JetBlue Airways</TagSelect.Option>
                     <TagSelect.Option value="airline5">Delta</TagSelect.Option>
                     <TagSelect.Option value="airline6">United</TagSelect.Option>
-                    <TagSelect.Option value="airline7">Sun Country Airlines</TagSelect.Option>
+                    <TagSelect.Option value="airline7">Spirit Airlines</TagSelect.Option>
                   </TagSelect>
                 )}
               </FormItem>
@@ -446,38 +452,40 @@ class TableList extends PureComponent {
   }
 
   renderOneFlight(item, styles) {
-  return (<List.Item>
-  <Card
-    className={styles.card}
-    hoverable
-  >
-    <div className={styles.cardList}>
-      <Card.Meta
-          avatar={<Avatar src={item.logo} shape="square"/>}
-          title={
-            <a onClick={this.showDetails}>
-              <div>{item.airlines + ' ' + item.number}</div>
-            </a>
-          }
-          description={
-            <Ellipsis lines={2} style={{marginTop:24}}>{item.depart_time + ' - ' + item.arrival_time}</Ellipsis>
-          }
-        />
-        <div className={styles.listContent} style={{display: 'flex'}} >
-          <div className={styles.listContentItem} style={{ marginLeft: 400}}>
-            <span>{item.hour + ' h ' + item.minute + ' m ' + item.stops}</span>
-            <p>{item.departure + ' - ' + item.arrival}</p>
+  return (
+    <List.Item>
+      <Card
+        className={styles.card}
+        hoverable
+      >
+        <div className={styles.cardList}>
+          <Card.Meta
+            avatar={<Avatar src={item.logo} shape="square"/>}
+            title={
+              <a onClick={this.showDetails}>
+                <div>{item.airlines + ' ' + item.number}</div>
+              </a>
+            }
+            description={
+              <Ellipsis lines={2} style={{marginTop:24}}>{item.depart_time + ' - ' + item.arrival_time}</Ellipsis>
+            }
+          />
+          <div className={styles.listContent} style={{display: 'flex'}} >
+            <div className={styles.listContentItem} style={{ marginLeft: 400}}>
+              <span>{item.hour + ' h ' + item.minute + ' m ' + item.stops}</span>
+              <p>{item.departure + ' - ' + item.arrival}</p>
+            </div>
+            <div className={styles.listContentItem} style={{ marginLeft: 128}}>
+              <span>{'$'+item.price}</span>
+              <p>{item.r_type}</p>
+            </div>
           </div>
-          <div className={styles.listContentItem} style={{ marginLeft: 128}}>
-            <span>{'$'+item.price}</span>
-            <p>{item.r_type}</p>
-          </div>
-      </div>
-    </div>
-  </Card>
-</List.Item>
-);
+        </div>
+      </Card>
+    </List.Item>
+  );
         }
+
   render() {
     const {
       list: { list = [] },

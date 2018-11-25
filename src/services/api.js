@@ -32,40 +32,6 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
-export async function queryRule(params) {
-  return request(`/api/rule?${stringify(params)}`);
-}
-
-export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'delete',
-    },
-  });
-}
-
-export async function addRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'post',
-    },
-  });
-}
-
-export async function updateRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'update',
-    },
-  });
-}
-
 export async function fakeSubmitForm(params) {
   return request('/api/forms', {
     method: 'POST',
@@ -169,55 +135,4 @@ export async function queryNotices() {
 
 export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
-}
-
-export async function getArmageddon() {
-  // return graphqlClient.query({
-  //   query: gql`{
-  //     repos {
-  //       name
-  //       remotes {
-  //         name
-  //         url
-  //       }
-  //       commits {
-  //         reviewed
-  //         hash
-  //         timestamp
-  //         author
-  //         message
-  //       }
-  //     }
-  //   }`,
-  return request('http://localhost:4200/graphql', {
-    method: 'POST'
-  }).catch((err) => {
-    u.log("Failed: getArmageddon graphql", err);
-    return {
-      data: [],
-      loading: false,
-      stale: false,
-      err,
-    };
-  });
-}
-
-export async function reviewCommit(reviewRepoName, commits) {
-  request('http://localhost:4200/graphql/review', {
-    method: 'POST',
-    body: {
-      reviewRepoName, reviewCommits: commits
-    }
-  }).catch((err) => {
-    u.log("Failed: reviewCommit graphql", err);
-    return {
-      data: [],
-      loading: false,
-      stale: false,
-      err,
-    };
-  });
-  // return Promise.resolve({
-  //   networkStatus: 7
-  // });
 }

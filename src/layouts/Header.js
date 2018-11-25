@@ -42,33 +42,8 @@ class HeaderView extends PureComponent {
     return collapsed ? 'calc(100% - 80px)' : 'calc(100% - 256px)';
   };
 
-  handleNoticeClear = type => {
-    message.success(
-      `${formatMessage({ id: 'component.noticeIcon.cleared' })} ${formatMessage({
-        id: `component.globalHeader.${type}`,
-      })}`
-    );
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'global/clearNotices',
-      payload: type,
-    });
-  };
-
   handleMenuClick = ({ key }) => {
     const { dispatch } = this.props;
-    // if (key === 'userCenter') {
-    //   router.push('/account/center');
-    //   return;
-    // }
-    // if (key === 'triggerError') {
-    //   router.push('/exception/trigger');
-    //   return;
-    // }
-    // if (key === 'userinfo') {
-    //   router.push('/account/settings/base');
-    //   return;
-    // }
     if (key === 'logout') {
       dispatch({
         type: 'login/logout',
@@ -76,14 +51,6 @@ class HeaderView extends PureComponent {
     }
   };
 
-  handleNoticeVisibleChange = visible => {
-    if (visible) {
-      const { dispatch } = this.props;
-      dispatch({
-        type: 'global/fetchNotices',
-      });
-    }
-  };
 
   handScroll = () => {
     const { autoHideHeader } = this.props;
@@ -130,17 +97,13 @@ class HeaderView extends PureComponent {
             mode="horizontal"
             Authorized={Authorized}
             onCollapse={handleMenuCollapse}
-            onNoticeClear={this.handleNoticeClear}
             onMenuClick={this.handleMenuClick}
-            onNoticeVisibleChange={this.handleNoticeVisibleChange}
             {...this.props}
           />
         ) : (
           <GlobalHeader
             onCollapse={handleMenuCollapse}
-            onNoticeClear={this.handleNoticeClear}
             onMenuClick={this.handleMenuClick}
-            onNoticeVisibleChange={this.handleNoticeVisibleChange}
             {...this.props}
           />
         )}

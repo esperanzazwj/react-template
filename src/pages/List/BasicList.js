@@ -66,60 +66,39 @@ class BasicList extends PureComponent {
   };
 
   renderOneFlight(item, styles) {
-    return (<List.Item>
-    <Card
-      className={styles.card}
-      hoverable
-    >
-      <div className={styles.cardList}>
-        <Card.Meta
-            avatar={<Avatar src={item.logo} shape="square"/>}
-            title={
-              <a onClick={this.showDetails}>
-                <div>{item.airlines + ' ' + item.number}</div>
-              </a>
-            }
-            description={
-              <Ellipsis lines={2} style={{marginTop:24}}>{item.depart_time + ' - ' + item.arrival_time}</Ellipsis>
-            }
-          />
-          <div className={styles.listContent} style={{display: 'flex'}} >
-            <div className={styles.listContentItem} style={{ marginLeft: 400}}>
-              <span>{item.hour + ' h ' + item.minute + ' m ' + item.stops}</span>
-              <p>{item.departure + ' - ' + item.arrival}</p>
+    return (
+      <List.Item>
+        <Card
+          className={styles.card}
+          hoverable
+        >
+          <div className={styles.cardList}>
+            <Card.Meta
+              avatar={<Avatar src={item.logo} shape="square"/>}
+              title={
+                <a onClick={this.showDetails}>
+                  <div>{item.airlines + ' ' + item.number}</div>
+                </a>
+              }
+              description={
+                <Ellipsis lines={2} style={{marginTop:24}}>{item.depart_time + ' - ' + item.arrival_time}</Ellipsis>
+              }
+            />
+            <div className={styles.listContent} style={{display: 'flex'}} >
+              <div className={styles.listContentItem} style={{ marginLeft: 400}}>
+                <span>{item.hour + ' h ' + item.minute + ' m ' + item.stops}</span>
+                <p>{item.departure + ' - ' + item.arrival}</p>
+              </div>
+              <div className={styles.listContentItem} style={{ marginLeft: 128}}>
+                <span>{'$'+item.price}</span>
+                <p>{item.r_type}</p>
+              </div>
             </div>
-            <div className={styles.listContentItem} style={{ marginLeft: 128}}>
-              <span>{'$'+item.price}</span>
-              <p>{item.r_type}</p>
-            </div>
-        </div>
-      </div>
-    </Card>
-  </List.Item>
+          </div>
+        </Card>
+      </List.Item>
   );
-          }
-          
-  // renderOneFlight (item, styles) {
-  //   return (
-  //   <List.Item.Meta
-  //     avatar={<Avatar src={item.logo} shape="square" size="small" />}
-  //     // title={<a onClick={this.showDetails}>Alaska Airlines 1025</a>}
-  //     title={<a onClick={this.showDetails}>{item.airlines + " " + item.number}</a>}
-  //     // description="11:40am - 5:04pm"
-  //     description={item.depart_time + " - " + item.arrival_time} 
-  //   />
-  //   <div className={styles.listContent}>
-  //     <div className={styles.listContentItem}>
-  //       <span>{item.hour + ' h ' + item.minute + ' m ' + item.stops}</span>
-  //       <p>{item.departure + ' - ' + item.arrival}</p>
-  //     </div>
-  //     <div className={styles.listContentItem}>
-  //       <span>$632</span>
-  //       <p>roundtrip</p>
-  //     </div>
-  //   </div>
-  //   );
-  // }
+}
 
   render() {
     const {
@@ -137,19 +116,6 @@ class BasicList extends PureComponent {
       pageSize: 5,
       total: 50,
     };
-
-    // const ListContent = ({ data: { hour, minute, stops, departure, arrival, price, type } }) => (
-    //   <div className={styles.listContent}>
-    //     <div className={styles.listContentItem}>
-    //       <span>{hour + ' h ' + minute + ' m ' + stops}</span>
-    //       <p>{departure + ' - ' + arrival}</p>
-    //     </div>
-    //     <div className={styles.listContentItem}>
-    //       <span>$632</span>
-    //       <p>roundtrip</p>
-    //     </div>
-    //   </div>
-    // );
 
     return (
       <PageHeaderWrapper>
@@ -203,24 +169,6 @@ class BasicList extends PureComponent {
                     </div>
                   </div>
                 </div>
-                  {/* <List.Item.Meta
-                    avatar={<Avatar src={item.logo} shape="square" size="small" />}
-                    // title={<a onClick={this.showDetails}>Alaska Airlines 1025</a>}
-                    title={<a onClick={this.showDetails}>{item.airlines + " " + item.number}</a>}
-                    // description="11:40am - 5:04pm"
-                    description={item.depart_time + " - " + item.arrival_time} 
-                  />
-                  <div className={styles.listContent}>
-                    <div className={styles.listContentItem}>
-                      <span>{item.hour + ' h ' + item.minute + ' m ' + item.stops}</span>
-                      <p>{item.departure + ' - ' + item.arrival}</p>
-                    </div>
-                    <div className={styles.listContentItem}>
-                      <span>$632</span>
-                      <p>roundtrip</p>
-                    </div>
-                  </div> */}
-                  {/* <ListContent data={item} /> */}
                 </List.Item>
               )}
             />
