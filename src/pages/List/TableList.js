@@ -54,6 +54,7 @@ class TableList extends PureComponent {
   state = {
     expandForm: false,
     roundtrip: false,
+    sort: 1,
   };
 
   handleFormReset = () => {
@@ -80,14 +81,26 @@ class TableList extends PureComponent {
     // window.alert('chunjie'+ roundtrip + e);
   };
 
-  addWish = id => {
+  addWish = item => {
     const { dispatch } = this.props;
-    window.alert("Add to wish list");
-    dispatch({
-      type: 'flights/add',
-      payload: { id },
-    });
+    if (item) {
+      window.alert("Add to wish list");
+      console.log('id: ', item[0].id);
+      const wid = item[0].id;
+      dispatch({
+        type: 'flights/add',
+        payload: { wid },
+      });
+    }
   };
+
+  handleSort = rule => {
+    const { sort } = this.state;
+    this.setState({
+      sort: rule,
+    });
+    // window.alert('sort' + rule);
+  }
 
   handleSearch = e => {
     // Send all input and fetch list to show
@@ -118,6 +131,70 @@ class TableList extends PureComponent {
     });
   };
 
+  sortBeforeRender(item) {
+    const { sort } = this.state;
+    if (item) {
+      if (sort === 1) {
+        console.log('sort: ', item[0]);
+        item.sort(
+          function(a, b) {
+            var keyA = a[0].price, keyB = b[0].price;
+            if(keyA < keyB) return -1;
+            if(keyA > keyB) return 1;
+            return 0;
+        });
+      }
+      else if (sort === 2) {
+        item.sort(function(a, b){
+          var keyA = a[0].price, keyB = b[0].price;
+          if(keyA < keyB) return 1;
+          if(keyA > keyB) return -1;
+          return 0;
+        });
+      }
+      else if (sort === 0) {
+        item.sort(function(a, b){
+          var keyA = a[0].duration, keyB = b[0].duration;
+          if(keyA < keyB) return -1;
+          if(keyA > keyB) return 1;
+          return 0;
+        });
+      }
+      else if (sort === 3) {
+        item.sort(function(a, b){
+          var keyA = a[0].d_time, keyB = b[0].d_time;
+          if(keyA < keyB) return -1;
+          if(keyA > keyB) return 1;
+          return 0;
+        });
+      }
+      else if (sort === 4) {
+        item.sort(function(a, b){
+          var keyA = a[0].d_time, keyB = b[0].d_time;
+          if(keyA < keyB) return 1;
+          if(keyA > keyB) return -1;
+          return 0;
+        });
+      }
+      else if (sort === 5) {
+        item.sort(function(a, b){
+          var keyA = a[0].a_time, keyB = b[0].a_time;
+          if(keyA < keyB) return -1;
+          if(keyA > keyB) return 1;
+          return 0;
+        });
+      }
+      else if (sort === 6) {
+        item.sort(function(a, b){
+          var keyA = a[0].a_time, keyB = b[0].a_time;
+          if(keyA < keyB) return 1;
+          if(keyA > keyB) return -1;
+          return 0;
+        });
+      }
+    }
+  }
+
   renderSimpleForm() {
     const {
       data,
@@ -128,12 +205,38 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={12} sm={24}>
             <FormItem label="Origin">
-              {getFieldDecorator('origin', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('origin', {rules: [{ required: true }]})(
+                <Select placeholder="City" style={{ width: '100%' }}>
+                  <Option value="New York">New York</Option>
+                  <Option value="Los Angeles">Los Angeles</Option>
+                  <Option value="San Francisco">San Francisco</Option>
+                  <Option value="Chicago">Chicago</Option>
+                  <Option value="Seattle">Seattle</Option>
+                  <Option value="Washington DC">Washington DC</Option>
+                  <Option value="Dallas">Dallas</Option>
+                  <Option value="Philadelphia">Philadelphia</Option>
+                  <Option value="Houston">Houston</Option>
+                  <Option value="Phoenix">Phoenix</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
             <FormItem label="Destination">
-              {getFieldDecorator('destination', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('destination', {rules: [{ required: true }]})(
+                <Select placeholder="City" style={{ width: '100%' }}>
+                  <Option value="New York">New York</Option>
+                  <Option value="Los Angeles">Los Angeles</Option>
+                  <Option value="San Francisco">San Francisco</Option>
+                  <Option value="Chicago">Chicago</Option>
+                  <Option value="Seattle">Seattle</Option>
+                  <Option value="Washington DC">Washington DC</Option>
+                  <Option value="Dallas">Dallas</Option>
+                  <Option value="Philadelphia">Philadelphia</Option>
+                  <Option value="Houston">Houston</Option>
+                  <Option value="Phoenix">Phoenix</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -150,20 +253,6 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          {/* <Col md={8} sm={24}>
-            <FormItem label="Travelers">
-              {getFieldDecorator('travelers')(
-                <Select placeholder="1" style={{ width: '100%' }}>
-                  <Option value="0">0</Option>
-                  <Option value="1">1</Option>
-                  <Option value="2">2</Option>
-                  <Option value="3">3</Option>
-                  <Option value="4">4</Option>
-                  <Option value="5">5</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col> */}
         </Row>
         <Row>
           <Col md={8} sm={24}>
@@ -178,6 +267,21 @@ class TableList extends PureComponent {
                 Down <Icon type="down" />
               </a>
             </span>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="Sort">
+              {getFieldDecorator('sort')(
+                <Select placeholder="Price(Low-High)" style={{ width: '100%' }} >
+                  <Option value="Shortest" onClick={this.handleSort.bind(this,0)}>Shortest</Option>
+                  <Option value="Price(Low-High)" onClick={this.handleSort.bind(this,1)}>Price(Low-High)</Option>
+                  <Option value="Price(High-Low)" onClick={this.handleSort.bind(this,2)}>Price(High-Low)</Option>
+                  <Option value="Departure(00:00-23:59)" onClick={this.handleSort.bind(this,3)}>Departure(00:00-23:59)</Option>
+                  <Option value="Departure(23:59-00:00)" onClick={this.handleSort.bind(this,4)}>Departure(23:59-00:00)</Option>
+                  <Option value="Arrival(00:00-23:59)" onClick={this.handleSort.bind(this,5)}>Arrival(00:00-23:59)</Option>
+                  <Option value="Arrival(23:59-00:00)" onClick={this.handleSort.bind(this,6)}>Arrival(23:59-00:00)</Option>
+                </Select>
+              )}
+            </FormItem>
           </Col>
         </Row>
       </Form>
@@ -194,15 +298,38 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={12} sm={24}>
             <FormItem label="Origin">
-              {getFieldDecorator('origin', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('origin', {rules: [{ required: true }]})(
+                <Select placeholder="City" style={{ width: '100%' }}>
+                  <Option value="New York">New York</Option>
+                  <Option value="Los Angeles">Los Angeles</Option>
+                  <Option value="San Francisco">San Francisco</Option>
+                  <Option value="Chicago">Chicago</Option>
+                  <Option value="Seattle">Seattle</Option>
+                  <Option value="Washington DC">Washington DC</Option>
+                  <Option value="Dallas">Dallas</Option>
+                  <Option value="Philadelphia">Philadelphia</Option>
+                  <Option value="Houston">Houston</Option>
+                  <Option value="Phoenix">Phoenix</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
-          <div>
-             {/* {flights && JSON.stringify(flights) || 'no data'}  */}
-          </div>
           <Col md={12} sm={24}>
             <FormItem label="Destination">
-              {getFieldDecorator('destination', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('destination', {rules: [{ required: true }]})(
+                <Select placeholder="City" style={{ width: '100%' }}>
+                  <Option value="New York">New York</Option>
+                  <Option value="Los Angeles">Los Angeles</Option>
+                  <Option value="San Francisco">San Francisco</Option>
+                  <Option value="Chicago">Chicago</Option>
+                  <Option value="Seattle">Seattle</Option>
+                  <Option value="Washington DC">Washington DC</Option>
+                  <Option value="Dallas">Dallas</Option>
+                  <Option value="Philadelphia">Philadelphia</Option>
+                  <Option value="Houston">Houston</Option>
+                  <Option value="Phoenix">Phoenix</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
@@ -212,20 +339,6 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          {/* <Col md={12} sm={24}>
-            <FormItem label="Travelers">
-              {getFieldDecorator('travelers')(
-                <Select placeholder="1" style={{ width: '100%' }}>
-                  <Option value="0">0</Option>
-                  <Option value="1">1</Option>
-                  <Option value="2">2</Option>
-                  <Option value="3">3</Option>
-                  <Option value="4">4</Option>
-                  <Option value="5">5</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col> */}
         </Row>
         <Row>
           <Col md={8} sm={24}>
@@ -241,6 +354,21 @@ class TableList extends PureComponent {
               </a>
             </span>
           </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="Sort">
+              {getFieldDecorator('sort')(
+                <Select placeholder="Price(Low-High)" style={{ width: '100%' }} >
+                  <Option value="Shortest" onClick={this.handleSort.bind(this,0)}>Shortest</Option>
+                  <Option value="Price(Low-High)" onClick={this.handleSort.bind(this,1)}>Price(Low-High)</Option>
+                  <Option value="Price(High-Low)" onClick={this.handleSort.bind(this,2)}>Price(High-Low)</Option>
+                  <Option value="Departure(00:00-23:59)" onClick={this.handleSort.bind(this,3)}>Departure(00:00-23:59)</Option>
+                  <Option value="Departure(23:59-00:00)" onClick={this.handleSort.bind(this,4)}>Departure(23:59-00:00)</Option>
+                  <Option value="Arrival(00:00-23:59)" onClick={this.handleSort.bind(this,5)}>Arrival(00:00-23:59)</Option>
+                  <Option value="Arrival(23:59-00:00)" onClick={this.handleSort.bind(this,6)}>Arrival(23:59-00:00)</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
         </Row>
       </Form>
     );
@@ -255,12 +383,38 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={12} sm={24}>
             <FormItem label="Origin">
-              {getFieldDecorator('origin', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('origin', {rules: [{ required: true }]})(
+                <Select placeholder="City" style={{ width: '100%' }}>
+                  <Option value="New York">New York</Option>
+                  <Option value="Los Angeles">Los Angeles</Option>
+                  <Option value="San Francisco">San Francisco</Option>
+                  <Option value="Chicago">Chicago</Option>
+                  <Option value="Seattle">Seattle</Option>
+                  <Option value="Washington DC">Washington DC</Option>
+                  <Option value="Dallas">Dallas</Option>
+                  <Option value="Philadelphia">Philadelphia</Option>
+                  <Option value="Houston">Houston</Option>
+                  <Option value="Phoenix">Phoenix</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
             <FormItem label="Destination">
-              {getFieldDecorator('destination', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('destination', {rules: [{ required: true }]})(
+                <Select placeholder="City" style={{ width: '100%' }}>
+                  <Option value="New York">New York</Option>
+                  <Option value="Los Angeles">Los Angeles</Option>
+                  <Option value="San Francisco">San Francisco</Option>
+                  <Option value="Chicago">Chicago</Option>
+                  <Option value="Seattle">Seattle</Option>
+                  <Option value="Washington DC">Washington DC</Option>
+                  <Option value="Dallas">Dallas</Option>
+                  <Option value="Philadelphia">Philadelphia</Option>
+                  <Option value="Houston">Houston</Option>
+                  <Option value="Phoenix">Phoenix</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -277,20 +431,23 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          {/* <Col md={8} sm={24}>
-            <FormItem label="Travelers">
-              {getFieldDecorator('travelers')(
-                <Select placeholder="1" style={{ width: '100%' }}>
-                  <Option value="0">0</Option>
-                  <Option value="1">1</Option>
-                  <Option value="2">2</Option>
-                  <Option value="3">3</Option>
-                  <Option value="4">4</Option>
-                  <Option value="5">5</Option>
-                </Select>
-              )}
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={6} sm={24}>
+            <FormItem label="Duration">
+              {getFieldDecorator('max_duration')(<Input placeholder="Maximum hours" />)}
             </FormItem>
-          </Col> */}
+          </Col>
+          <Col md={4} sm={24} style={{ marginLeft:96 }}>
+            <FormItem label="Lowest Price">
+              {getFieldDecorator('low_price')(<Input />)}
+            </FormItem>
+          </Col>
+          <Col md={4} sm={24} style={{ marginLeft:24 }}>
+            <FormItem label="Highest Price">
+              {getFieldDecorator('high_price')(<Input />)}
+            </FormItem>
+          </Col>
         </Row>
         <StandardFormRow block style={{ paddingBottom: 11 }}>
               <FormItem label="Airlines">
@@ -309,9 +466,9 @@ class TableList extends PureComponent {
               <FormItem label="Stops">
                 {getFieldDecorator('stops')(
                   <TagSelect>
-                    <TagSelect.Option value="stop0">Nonstop</TagSelect.Option>
-                    <TagSelect.Option value="stop1">1 Stop</TagSelect.Option>
-                    <TagSelect.Option value="stop2">2+ Stops</TagSelect.Option>
+                    <TagSelect.Option value="0">Nonstop</TagSelect.Option>
+                    <TagSelect.Option value="1">1 Stop</TagSelect.Option>
+                    <TagSelect.Option value="3">2+ Stops</TagSelect.Option>
                   </TagSelect>
                 )}
               </FormItem>
@@ -335,21 +492,38 @@ class TableList extends PureComponent {
                   </TagSelect>
                 )}
               </FormItem>
-          </StandardFormRow>
+        </StandardFormRow>
         
-        <div style={{ overflow: 'hidden' }}>
-          <div style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">
-              Search
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-              Reset
-            </Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              Up <Icon type="up" />
-            </a>
-          </div>
-        </div>
+        <Row>
+          <Col md={8} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">
+                Search
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                Reset
+              </Button>
+              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
+                Up <Icon type="up" />
+              </a>
+            </span>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="Sort">
+              {getFieldDecorator('sort')(
+                <Select placeholder="Price(Low-High)" style={{ width: '100%' }}>
+                  <Option value="Shortest" onClick={this.handleSort.bind(this,0)}>Shortest</Option>
+                  <Option value="Price(Low-High)" onClick={this.handleSort.bind(this,1)}>Price(Low-High)</Option>
+                  <Option value="Price(High-Low)" onClick={this.handleSort.bind(this,2)}>Price(High-Low)</Option>
+                  <Option value="Departure(00:00-23:59)" onClick={this.handleSort.bind(this,3)}>Departure(00:00-23:59)</Option>
+                  <Option value="Departure(23:59-00:00)" onClick={this.handleSort.bind(this,4)}>Departure(23:59-00:00)</Option>
+                  <Option value="Arrival(00:00-23:59)" onClick={this.handleSort.bind(this,5)}>Arrival(00:00-23:59)</Option>
+                  <Option value="Arrival(23:59-00:00)" onClick={this.handleSort.bind(this,6)}>Arrival(23:59-00:00)</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
       </Form>
     );
   }
@@ -363,12 +537,38 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={12} sm={24}>
             <FormItem label="Origin">
-              {getFieldDecorator('origin', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('origin', {rules: [{ required: true }]})(
+                <Select placeholder="City" style={{ width: '100%' }}>
+                  <Option value="New York">New York</Option>
+                  <Option value="Los Angeles">Los Angeles</Option>
+                  <Option value="San Francisco">San Francisco</Option>
+                  <Option value="Chicago">Chicago</Option>
+                  <Option value="Seattle">Seattle</Option>
+                  <Option value="Washington DC">Washington DC</Option>
+                  <Option value="Dallas">Dallas</Option>
+                  <Option value="Philadelphia">Philadelphia</Option>
+                  <Option value="Houston">Houston</Option>
+                  <Option value="Phoenix">Phoenix</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col md={12} sm={24}>
             <FormItem label="Destination">
-              {getFieldDecorator('destination', {rules: [{ required: true }]})(<Input placeholder="City or airport" />)}
+              {getFieldDecorator('destination', {rules: [{ required: true }]})(
+                <Select placeholder="City" style={{ width: '100%' }}>
+                  <Option value="New York">New York</Option>
+                  <Option value="Los Angeles">Los Angeles</Option>
+                  <Option value="San Francisco">San Francisco</Option>
+                  <Option value="Chicago">Chicago</Option>
+                  <Option value="Seattle">Seattle</Option>
+                  <Option value="Washington DC">Washington DC</Option>
+                  <Option value="Dallas">Dallas</Option>
+                  <Option value="Philadelphia">Philadelphia</Option>
+                  <Option value="Houston">Houston</Option>
+                  <Option value="Phoenix">Phoenix</Option>
+                </Select>
+              )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -378,20 +578,23 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          {/* <Col md={8} sm={24}>
-            <FormItem label="Travelers">
-              {getFieldDecorator('travelers')(
-                <Select placeholder="1" style={{ width: '100%' }}>
-                  <Option value="travel0">0</Option>
-                  <Option value="travel1">1</Option>
-                  <Option value="travel2">2</Option>
-                  <Option value="travel3">3</Option>
-                  <Option value="travel4">4</Option>
-                  <Option value="travel5">5</Option>
-                </Select>
-              )}
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={6} sm={24}>
+            <FormItem label="Duration">
+              {getFieldDecorator('max_duration')(<Input placeholder="Maximum hours" />)}
             </FormItem>
-          </Col> */}
+          </Col>
+          <Col md={4} sm={24} style={{ marginLeft:96 }}>
+            <FormItem label="Lowest Price">
+              {getFieldDecorator('low_price')(<Input />)}
+            </FormItem>
+          </Col>
+          <Col md={4} sm={24} style={{ marginLeft:24 }}>
+            <FormItem label="Highest Price">
+              {getFieldDecorator('high_price')(<Input />)}
+            </FormItem>
+          </Col>
         </Row>
         <StandardFormRow block style={{ paddingBottom: 11 }}>
               <FormItem label="Airlines">
@@ -410,9 +613,9 @@ class TableList extends PureComponent {
               <FormItem label="Stops">
                 {getFieldDecorator('stops')(
                   <TagSelect>
-                    <TagSelect.Option value="stop0">Nonstop</TagSelect.Option>
-                    <TagSelect.Option value="stop1">1 Stop</TagSelect.Option>
-                    <TagSelect.Option value="stop2">2+ Stops</TagSelect.Option>
+                    <TagSelect.Option value="0">Nonstop</TagSelect.Option>
+                    <TagSelect.Option value="1">1 Stop</TagSelect.Option>
+                    <TagSelect.Option value="3">2+ Stops</TagSelect.Option>
                   </TagSelect>
                 )}
               </FormItem>
@@ -428,19 +631,36 @@ class TableList extends PureComponent {
               </FormItem>
           </StandardFormRow>
         
-        <div style={{ overflow: 'hidden' }}>
-          <div style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit">
-              Search
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-              Reset
-            </Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              Up <Icon type="up" />
-            </a>
-          </div>
-        </div>
+          <Row>
+          <Col md={8} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">
+                Search
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                Reset
+              </Button>
+              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
+                Up <Icon type="up" />
+              </a>
+            </span>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="Sort">
+              {getFieldDecorator('sort')(
+                <Select placeholder="Price(Low-High)" style={{ width: '100%' }}>
+                  <Option value="Shortest" onClick={this.handleSort.bind(this,0)}>Shortest</Option>
+                  <Option value="Price(Low-High)" onClick={this.handleSort.bind(this,1)}>Price(Low-High)</Option>
+                  <Option value="Price(High-Low)" onClick={this.handleSort.bind(this,2)}>Price(High-Low)</Option>
+                  <Option value="Departure(00:00-23:59)" onClick={this.handleSort.bind(this,3)}>Departure(00:00-23:59)</Option>
+                  <Option value="Departure(23:59-00:00)" onClick={this.handleSort.bind(this,4)}>Departure(23:59-00:00)</Option>
+                  <Option value="Arrival(00:00-23:59)" onClick={this.handleSort.bind(this,5)}>Arrival(00:00-23:59)</Option>
+                  <Option value="Arrival(23:59-00:00)" onClick={this.handleSort.bind(this,6)}>Arrival(23:59-00:00)</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
       </Form>
     );
   }
@@ -492,6 +712,13 @@ class TableList extends PureComponent {
       loading,
       form: { getFieldDecorator },
     } = this.props;
+    
+    console.log('data before', this.props.flights.data);
+    if (this.props.flights.data && this.props.flights.data.length > 0) {
+      this.sortBeforeRender(this.props.flights.data);
+    }
+    console.log('data after', this.props.flights.data);
+  
     const cardList = list ? (
       <List
         rowKey="id"
@@ -505,7 +732,7 @@ class TableList extends PureComponent {
               {item.map(item => this.renderOneFlight(item, styles))}
               <div style={{ overflow: 'hidden' }}>
                 <div style={{ float: 'right', marginBottom: 24 }}>
-                  <Button style={{ marginLeft: 48 } } type="primary" htmlType="submit" onClick={() => this.addWish(item.id)}>
+                  <Button style={{ marginLeft: 48 } } type="primary" htmlType="submit" onClick={() => this.addWish(item)}>
                     Add to wish list
                   </Button>
                 </div>

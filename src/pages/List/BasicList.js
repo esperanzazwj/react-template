@@ -57,11 +57,12 @@ class BasicList extends PureComponent {
     });
   }
 
-  deleteItem = id => {
+  deleteItem = item => {
     const { dispatch } = this.props;
+    const wid = item[0].id;
     dispatch({
       type: 'list/remove',
-      payload: { id },
+      payload: { wid },
     });
   };
 
@@ -134,36 +135,26 @@ class BasicList extends PureComponent {
               pagination={paginationProps}
               dataSource={list}
               renderItem={item => (
-                <List.Item
-                  actions={[
-                    <a onClick={() => {
-                        Modal.confirm({
-                          title: 'Remove Item',
-                          content: 'Really want to remove this flight from wish list?',
-                          okText: 'OK',
-                          cancelText: 'Cancel',
-                          onOk: () => this.deleteItem(item.id),
-                        });
-                      }}>
-                      Remove
-                    </a>,
-                  ]}
-                >
+                <List.Item>
                 <div className="flightSetList">
                   <div className="flightSet"></div>
-                  {item.map(item => this.renderOneFlight(item, styles))}
+                  {item.map(i => this.renderOneFlight(i, styles))}
                   <div style={{ overflow: 'hidden' }}>
                     <div style={{ float: 'right', marginBottom: 24 }}>
-                      <Button style={{ marginLeft: 48 } } type="primary" htmlType="submit" 
+                      <Button 
+                        style={{ marginLeft: 48 }} 
+                        type="primary" 
+                        htmlType="submit" 
                         onClick={() => {
                           Modal.confirm({
                             title: 'Remove Item',
                             content: 'Really want to remove this flight from wish list?',
                             okText: 'OK',
                             cancelText: 'Cancel',
-                            onOk: () => this.deleteItem(item.id),
+                            onOk: () => this.deleteItem(item),
                           });
-                        }}>
+                        }}
+                      >
                         Remove from wish list
                       </Button>
                     </div>

@@ -15,7 +15,11 @@ for (let i = 0; i < 46; i += 1) {
     "stops": "(Nonstop)",
     "departure": "JFK",
     "arrival": "SFO",
-    "price": 632,
+    "price": 632 + 1000*i,
+    "duration": 1000- i,
+    "d_time": 1000- i,
+    "a_time": 1000- i,
+    "total_price": 1000,
     "r_type": "roundtrip"
   },{
     "id": "02",
@@ -29,7 +33,11 @@ for (let i = 0; i < 46; i += 1) {
     "stops": "(Nonstop)",
     "departure": "JFK",
     "arrival": "SFO",
-    "price": 632,
+    "price": 532 + 1000*i,
+    "duration": 1000 - i,
+    "d_time": 1000- i,
+    "a_time": 1000- i,
+    "total_price": 1000,
     "r_type": "roundtrip"
   }]
   );

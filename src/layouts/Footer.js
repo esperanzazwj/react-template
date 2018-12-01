@@ -28,7 +28,7 @@ const FooterView = () => (
       ]}
       copyright={
         <Fragment>
-          Armageddon
+          Welcome
         </Fragment>
       }
     />

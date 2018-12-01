@@ -24,24 +24,7 @@ const links = [
   },
 ];
 
-const copyright = (
-  <Fragment>
-    Armageddon
-  </Fragment>
-);
-
 class UserLayout extends React.PureComponent {
-  // @TODO title
-  // getPageTitle() {
-  //   const { routerData, location } = this.props;
-  //   const { pathname } = location;
-  //   let title = 'Armageddon';
-  //   if (routerData[pathname] && routerData[pathname].name) {
-  //     title = `${routerData[pathname].name} - Armageddon`;
-  //   }
-  //   return title;
-  // }
-
   render() {
     const { children } = this.props;
     return (
