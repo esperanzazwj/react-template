@@ -10,11 +10,11 @@ export const graphqlClient = new ApolloClient({
 
 export async function queryFlights(params) {
   console.log("params----", params);
-  return request(`http://127.0.0.1:5000/api/flights?${stringify(params)}`);
+  return request(`/api/flights?${stringify(params)}`);
 }
 
 export async function queryWish(params) {
-  return request(`http://127.0.0.1:5000/api/wish`);
+  return request(`/api/wish`);
 }
 
 export async function removeWish(params) {
@@ -22,7 +22,7 @@ export async function removeWish(params) {
 }
 
 export async function addWish(params) {
-  return request(`http://127.0.0.1:5000/api/add?${stringify(params)}`);
+  return request(`/api/add?${stringify(params)}`);
 }
 export async function queryProjectNotice() {
   return request('/api/project/notice');
